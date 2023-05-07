@@ -5,6 +5,7 @@ import Container from '../../components/Container/Container';
 import {NavLink, useLocation} from 'react-router-dom';
 import InputBox from '../../components/Form/InputBox/InputBox';
 import Button from '../../components/Button/Button';
+import {BASE_URL} from '../../index';
 
 const Auth = () => {
   const authAction = useLocation().pathname.split('/')[2];
@@ -53,7 +54,7 @@ const Auth = () => {
                 name="password"
                 error={errors.password && touched.password}
               />
-              <span className={css.auth_query}>Не має аккаунта? <NavLink to={'/auth/register'}>Зареєструватись</NavLink></span>
+              <span className={css.auth_query}>Не має аккаунта? <NavLink to={BASE_URL + '/auth/register'}>Зареєструватись</NavLink></span>
               <Button>Увійти</Button>
             </Form>
           }}
@@ -91,7 +92,7 @@ const Auth = () => {
                 name="retypePassword"
                 error={errors.retypePassword && touched.retypePassword}
               />
-              <span className={css.auth_query}>У вас є аккаунт? <NavLink to={'/auth/login'}>Увійти</NavLink></span>
+              <span className={css.auth_query}>У вас є аккаунт? <NavLink to={BASE_URL + '/auth/login'}>Увійти</NavLink></span>
               <Button>Зареєстуватись</Button>
             </Form>
           }}

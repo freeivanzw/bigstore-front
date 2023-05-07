@@ -2,6 +2,7 @@ import Container from '../Container/Container';
 import {NavLink} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import css from './Header.module.css';
+import {BASE_URL} from '../../index';
 
 const Header = (props) => {
   const { siteName } = props;
@@ -12,13 +13,13 @@ const Header = (props) => {
 
   return <header className={css.site_header}>
     <Container className={css.site_header_container}>
-      <NavLink to="/">{siteName}</NavLink>
+      <NavLink to={BASE_URL + '/'}>{siteName}</NavLink>
       {isAuth
         ? <div>
           <span>{userName}</span>
           <button>Вийти</button>
         </div>
-        : <NavLink to="auth/login">Увійти</NavLink>
+        : <NavLink to={BASE_URL + 'auth/login'}>Увійти</NavLink>
       }
     </Container>
   </header>
