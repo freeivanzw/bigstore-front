@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/bigstore-front/build/static/css/main.6d0d6f4b.css",
-    "main.js": "/bigstore-front/build/static/js/main.ef3849b2.js",
-    "index.html": "/bigstore-front/build/index.html",
-    "main.6d0d6f4b.css.map": "/bigstore-front/build/static/css/main.6d0d6f4b.css.map",
-    "main.ef3849b2.js.map": "/bigstore-front/build/static/js/main.ef3849b2.js.map"
+    "main.css": "/static/css/main.6d0d6f4b.css",
+    "main.js": "/static/js/main.d102fd50.js",
+    "index.html": "/index.html",
+    "main.6d0d6f4b.css.map": "/static/css/main.6d0d6f4b.css.map",
+    "main.d102fd50.js.map": "/static/js/main.d102fd50.js.map"
   },
   "entrypoints": [
     "static/css/main.6d0d6f4b.css",
-    "static/js/main.ef3849b2.js"
+    "static/js/main.d102fd50.js"
   ]
 }

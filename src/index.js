@@ -11,7 +11,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 
 root.render(
-  <BrowserRouter>
+  <BrowserRouter basename="/bigstore-front/build">
     <Provider store={store}>
       <App />
     </Provider>
