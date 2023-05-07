@@ -2,7 +2,7 @@ import Container from '../Container/Container';
 import {NavLink} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import css from './Header.module.css';
-import {BASE_URL} from '../../index';
+import {BASE_URL} from '../../constants';
 
 const Header = (props) => {
   const { siteName } = props;

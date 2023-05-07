@@ -5,7 +5,7 @@ import Container from '../../components/Container/Container';
 import {NavLink, useLocation} from 'react-router-dom';
 import InputBox from '../../components/Form/InputBox/InputBox';
 import Button from '../../components/Button/Button';
-import {BASE_URL} from '../../index';
+import {BASE_URL} from '../../constants';
 
 const Auth = () => {
   const authAction = useLocation().pathname.split('/')[2];

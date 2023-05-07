@@ -1,6 +1,6 @@
 import Home from '../../pages/Home/Home';
 import Auth from '../../pages/Auth/Auth';
-import {BASE_URL} from '../../index';
+import {BASE_URL} from '../../constants';
 
 export const RoutesPublic = [
   {
