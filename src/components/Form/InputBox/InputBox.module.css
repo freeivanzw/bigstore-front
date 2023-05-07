@@ -1,0 +1,22 @@
+.input_box {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 12px;
+}
+
+.input_box_title {
+    font-size: 15px;
+    line-height: 1.2;
+    margin-bottom: 4px;
+}
+
+.input_box input {
+    border: 1px solid gray;
+    border-radius: 5px;
+    height: 30px;
+    padding: 0 15px;
+}
+
+.input_box.error input {
+    border-color: red
+}
