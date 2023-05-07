@@ -19,7 +19,7 @@ const Header = (props) => {
           <span>{userName}</span>
           <button>Вийти</button>
         </div>
-        : <NavLink to={BASE_URL + 'auth/login'}>Увійти</NavLink>
+        : <NavLink to={BASE_URL + '/auth/login'}>Увійти</NavLink>
       }
     </Container>
   </header>
