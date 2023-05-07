@@ -8,10 +8,8 @@ import App from './App';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-
-
 root.render(
-  <BrowserRouter basename="/bigstore-front/build">
+  <BrowserRouter>
     <Provider store={store}>
       <App />
     </Provider>
