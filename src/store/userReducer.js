@@ -6,6 +6,7 @@ const initial = {
 }
 
 const SET_AUTH = 'SET_AUTH';
+const SET_USER = 'SET_USER';
 
 export const userReducer = (state = initial, action) => {
   switch (action.type) {
@@ -13,6 +14,16 @@ export const userReducer = (state = initial, action) => {
       return {
         ...state,
         isAuth: action.payload
+      }
+    }
+    case (SET_USER): {
+      const {id, email, name} = action.payload;
+
+      return {
+        ...state,
+        id,
+        email,
+        name
       }
     }
 
@@ -23,4 +34,5 @@ export const userReducer = (state = initial, action) => {
 }
 
 export const setAuthAC = (isAuth) => ({type: SET_AUTH, payload: isAuth})
+export const setUserAC = (id, email, name) => ({type: SET_USER, payload: {id, email, name}});
 

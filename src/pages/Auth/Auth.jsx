@@ -1,14 +1,20 @@
 import * as Yup from 'yup';
-import {Field, Form, Formik} from 'formik';
+import {Form, Formik} from 'formik';
 import css from './Auth.module.css';
 import Container from '../../components/Container/Container';
-import {NavLink, useLocation} from 'react-router-dom';
+import {NavLink, Navigate, useLocation} from 'react-router-dom';
 import InputBox from '../../components/Form/InputBox/InputBox';
 import Button from '../../components/Button/Button';
-import {BASE_URL} from '../../constants';
+import {BASE_URL, HOME_ROUTE, LOGIN_ROUTE, REGISTER_ROUTE} from '../../constants';
+import userApi from '../../api/userApi';
+import {useDispatch, useSelector} from 'react-redux';
+import {setAuthAC, setUserAC} from '../../store/userReducer';
+
 
 const Auth = () => {
+  const dispatch = useDispatch();
   const authAction = useLocation().pathname.split('/')[2];
+  const isAuth = useSelector((state) => state.user.isAuth);
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email().required(),
@@ -22,12 +28,53 @@ const Auth = () => {
     retypePassword: Yup.string().required().oneOf([Yup.ref('password')])
   })
 
-  const loginSubmit = (values) => {
-    console.log(values)
+  const loginSubmit = async (values, {setErrors}) => {
+    try {
+      const {email, password} = values;
+
+      const User = await userApi.login(email, password);
+
+      if (User.success) {
+        const {id, email, name, token} = User;
+
+        localStorage.setItem('Authorization', 'Bearer ' + token);
+        dispatch(setUserAC(id, email, name));
+        dispatch(setAuthAC(true))
+      }
+    } catch (e) {
+      setErrors({
+        email: 'email error',
+        password: 'password error'
+      })
+    }
   }
 
-  const registerSubmit = (values) => {
-    console.log(values)
+  const registerSubmit = async (values, {setErrors}) => {
+    try {
+      const {name, email, password} = values;
+
+      const User = await userApi.register(name, email, password);
+
+      if (User.success) {
+        const {id, email, name, token} = User;
+
+        localStorage.setItem('Authorization', 'Bearer ' + token);
+        dispatch(setUserAC(id, email, name));
+        dispatch(setAuthAC(true))
+      }
+
+    } catch (e) {
+      setErrors({
+        name: 'name error',
+        email: 'email error',
+        password: 'password error',
+        retypePassword: 'password error'
+      })
+    }
+  }
+
+  if (isAuth) {
+    return <Navigate to={BASE_URL + HOME_ROUTE} />
   }
 
   return <div>
@@ -47,14 +94,16 @@ const Auth = () => {
               <InputBox
                 label="email"
                 name="email"
+                type="email"
                 error={errors.email && touched.email}
               />
               <InputBox
                 label="Пароль"
                 name="password"
+                type="password"
                 error={errors.password && touched.password}
               />
-              <span className={css.auth_query}>Не має аккаунта? <NavLink to={BASE_URL + '/auth/register'}>Зареєструватись</NavLink></span>
+              <span className={css.auth_query}>Не має аккаунта? <NavLink to={BASE_URL + REGISTER_ROUTE}>Зареєструватись</NavLink></span>
               <Button>Увійти</Button>
             </Form>
           }}
@@ -75,24 +124,28 @@ const Auth = () => {
               <InputBox
                 label="Ім'я"
                 name="name"
+                type="text"
                 error={errors.name && touched.name}
               />
               <InputBox
                 label="email"
                 name="email"
+                type="email"
                 error={errors.email && touched.email}
               />
               <InputBox
                 label="Пароль"
                 name="password"
+                type="password"
                 error={errors.password && touched.password}
               />
               <InputBox
                 label="Повторіть пароль"
                 name="retypePassword"
+                type="password"
                 error={errors.retypePassword && touched.retypePassword}
               />
-              <span className={css.auth_query}>У вас є аккаунт? <NavLink to={BASE_URL + '/auth/login'}>Увійти</NavLink></span>
+              <span className={css.auth_query}>У вас є аккаунт? <NavLink to={BASE_URL + LOGIN_ROUTE}>Увійти</NavLink></span>
               <Button>Зареєстуватись</Button>
             </Form>
           }}
