@@ -2,7 +2,7 @@ import Container from '../Container/Container';
 import {NavLink} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import css from './Header.module.css';
-import {BASE_URL, HOME_ROUTE, LOGIN_ROUTE} from '../../constants';
+import {BASE_URL, EDIT_USER_ROUTE, HOME_ROUTE, LOGIN_ROUTE} from '../../constants';
 import {setAuthAC, setUserAC} from '../../store/userReducer';
 
 const Header = (props) => {
@@ -23,7 +23,7 @@ const Header = (props) => {
       <NavLink to={BASE_URL + HOME_ROUTE}>{siteName}</NavLink>
       {isAuth
         ? <div>
-          <span>{userName}</span>
+          <NavLink to={BASE_URL + EDIT_USER_ROUTE}>{userName}</NavLink>
           <button onClick={logoutUser}>Вийти</button>
         </div>
         : <NavLink to={BASE_URL + LOGIN_ROUTE}>Увійти</NavLink>

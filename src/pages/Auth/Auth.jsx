@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import {Form, Formik} from 'formik';
+import {Form, Formik, useFormik} from 'formik';
 import css from './Auth.module.css';
 import Container from '../../components/Container/Container';
 import {NavLink, Navigate, useLocation} from 'react-router-dom';
@@ -16,9 +16,37 @@ const Auth = () => {
   const authAction = useLocation().pathname.split('/')[2];
   const isAuth = useSelector((state) => state.user.isAuth);
 
-  const LoginSchema = Yup.object().shape({
-    email: Yup.string().email().required(),
-    password: Yup.string().min(6).required(),
+
+  const LoginFormik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    validationSchema: Yup.object().shape({
+      email: Yup.string().email().required(),
+      password: Yup.string().min(6).required(),
+    }),
+    onSubmit: async (values, {setErrors}) => {
+      try {
+        const {email, password} = values;
+
+        const User = await userApi.login(email, password);
+
+        if (User.success) {
+          const {id, email, name, token} = User;
+
+          localStorage.setItem('Authorization', 'Bearer ' + token);
+          dispatch(setUserAC(id, email, name));
+          dispatch(setAuthAC(true))
+        }
+      } catch (e) {
+        console.log(e)
+        setErrors({
+          email: 'email error',
+          password: 'password error'
+        })
+      }
+    }
   })
 
   const RegisterSchema = Yup.object().shape({
@@ -28,50 +56,40 @@ const Auth = () => {
     retypePassword: Yup.string().required().oneOf([Yup.ref('password')])
   })
 
-  const loginSubmit = async (values, {setErrors}) => {
-    try {
-      const {email, password} = values;
+  const RegisterFormik = useFormik({
+    initialValues: {
+      name: '',
+      email: '',
+      password: '',
+      retypePassword: ''
+    },
+    validationSchema: RegisterSchema,
+    onSubmit: async (values, {setErrors}) => {
+      try {
+        const {name, email, password} = values;
 
-      const User = await userApi.login(email, password);
+        const User = await userApi.register(name, email, password);
 
-      if (User.success) {
-        const {id, email, name, token} = User;
+        if (User.success) {
+          const {id, email, name, token} = User;
 
-        localStorage.setItem('Authorization', 'Bearer ' + token);
-        dispatch(setUserAC(id, email, name));
-        dispatch(setAuthAC(true))
+          localStorage.setItem('Authorization', 'Bearer ' + token);
+          dispatch(setUserAC(id, email, name));
+          dispatch(setAuthAC(true))
+        }
+
+      } catch (e) {
+        console.log(e)
+        setErrors({
+          name: 'name error',
+          email: 'email error',
+          password: 'password error',
+          retypePassword: 'password error'
+        })
       }
-    } catch (e) {
-      setErrors({
-        email: 'email error',
-        password: 'password error'
-      })
     }
-  }
 
-  const registerSubmit = async (values, {setErrors}) => {
-    try {
-      const {name, email, password} = values;
-
-      const User = await userApi.register(name, email, password);
-
-      if (User.success) {
-        const {id, email, name, token} = User;
-
-        localStorage.setItem('Authorization', 'Bearer ' + token);
-        dispatch(setUserAC(id, email, name));
-        dispatch(setAuthAC(true))
-      }
-
-    } catch (e) {
-      setErrors({
-        name: 'name error',
-        email: 'email error',
-        password: 'password error',
-        retypePassword: 'password error'
-      })
-    }
-  }
+  })
 
   if (isAuth) {
     return <Navigate to={BASE_URL + HOME_ROUTE} />
@@ -81,12 +99,8 @@ const Auth = () => {
     <Container>
       {authAction === 'login'
         ? <Formik
-          initialValues={{
-            email: '',
-            password: '',
-          }}
-          validationSchema={LoginSchema}
-          onSubmit={loginSubmit}
+          initialValues={LoginFormik.initialValues}
+          onSubmit={LoginFormik.handleSubmit}
         >
           {({ errors, touched }) => {
             return <Form className={css.auth_form}>
@@ -95,13 +109,19 @@ const Auth = () => {
                 label="email"
                 name="email"
                 type="email"
-                error={errors.email && touched.email}
+                value={LoginFormik.values.email}
+                onChange={LoginFormik.handleChange}
+                onBlur={LoginFormik.handleBlur}
+                error={LoginFormik.errors.email && LoginFormik.touched.email}
               />
               <InputBox
                 label="Пароль"
                 name="password"
                 type="password"
-                error={errors.password && touched.password}
+                value={LoginFormik.values.password}
+                onChange={LoginFormik.handleChange}
+                onBlur={LoginFormik.handleBlur}
+                error={LoginFormik.errors.password && LoginFormik.touched.password}
               />
               <span className={css.auth_query}>Не має аккаунта? <NavLink to={BASE_URL + REGISTER_ROUTE}>Зареєструватись</NavLink></span>
               <Button>Увійти</Button>
@@ -109,14 +129,8 @@ const Auth = () => {
           }}
         </Formik>
         : <Formik
-          initialValues={{
-            name: '',
-            email: '',
-            password: '',
-            retypePassword: ''
-          }}
-          validationSchema={RegisterSchema}
-          onSubmit={registerSubmit}
+          initialValues={RegisterFormik.initialValues}
+          onSubmit={RegisterFormik.handleSubmit}
         >
           {({ errors, touched }) => {
             return <Form className={css.auth_form}>
@@ -125,25 +139,37 @@ const Auth = () => {
                 label="Ім'я"
                 name="name"
                 type="text"
-                error={errors.name && touched.name}
+                value={RegisterFormik.values.name}
+                onChange={RegisterFormik.handleChange}
+                onBlur={RegisterFormik.handleBlur}
+                error={RegisterFormik.errors.name && RegisterFormik.touched.name}
               />
               <InputBox
                 label="email"
                 name="email"
                 type="email"
-                error={errors.email && touched.email}
+                value={RegisterFormik.values.email}
+                onChange={RegisterFormik.handleChange}
+                onBlur={RegisterFormik.handleBlur}
+                error={RegisterFormik.errors.email && RegisterFormik.touched.email}
               />
               <InputBox
                 label="Пароль"
                 name="password"
                 type="password"
-                error={errors.password && touched.password}
+                value={RegisterFormik.values.password}
+                onChange={RegisterFormik.handleChange}
+                onBlur={RegisterFormik.handleBlur}
+                error={RegisterFormik.errors.password && RegisterFormik.touched.password}
               />
               <InputBox
                 label="Повторіть пароль"
                 name="retypePassword"
                 type="password"
-                error={errors.retypePassword && touched.retypePassword}
+                value={RegisterFormik.values.retypePassword}
+                onChange={RegisterFormik.handleChange}
+                onBlur={RegisterFormik.handleBlur}
+                error={RegisterFormik.errors.retypePassword && RegisterFormik.touched.retypePassword}
               />
               <span className={css.auth_query}>У вас є аккаунт? <NavLink to={BASE_URL + LOGIN_ROUTE}>Увійти</NavLink></span>
               <Button>Зареєстуватись</Button>
