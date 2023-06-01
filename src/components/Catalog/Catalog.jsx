@@ -37,7 +37,7 @@ const Catalog = () => {
 
   const changePage = ({selected}) => {
     dispatch(setCurrentPageAC(++selected))
-    history('/' + selected)
+    history(BASE_URL + '/' + selected)
   }
   return <section className={css.catalog}>
     <ul className={css.catalog_list}>

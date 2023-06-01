@@ -13,8 +13,10 @@ import {setAuthAC, setRoelAC, setUserAC} from '../../store/userReducer';
 
 const Auth = () => {
   const dispatch = useDispatch();
-  const authAction = useLocation().pathname.split('/')[2];
+  const authAction = useLocation().pathname.split('/');
   const isAuth = useSelector((state) => state.user.isAuth);
+
+  console.log(authAction)
 
 
   const LoginFormik = useFormik({
@@ -105,7 +107,7 @@ const Auth = () => {
 
   return <div>
     <Container>
-      {authAction === 'login'
+      {authAction[authAction.length - 1] === 'login'
         ? <Formik
           initialValues={LoginFormik.initialValues}
           onSubmit={LoginFormik.handleSubmit}

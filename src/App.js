@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import userApi from './api/userApi';
 import {setAuthAC, setRoelAC, setUserAC} from './store/userReducer';
 import {useDispatch, useSelector} from 'react-redux';
-import {ADMIN_ROEL} from './constants';
+import {ADMIN_ROEL, BASE_URL} from './constants';
 import basketApi from './api/basketApi';
 import {setCounterAC} from './store/basketReducer';
 

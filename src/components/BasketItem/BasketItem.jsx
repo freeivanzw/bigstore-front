@@ -18,6 +18,7 @@ const BasketItem = (props) => {
   }
 
   return <div className={css.basket_item}>
+
     <img src={UPLOAD_URL + 'products/' + image} width="100" height="100" alt={name}/>
     <span>{name}</span>
     <b>{price}</b>
