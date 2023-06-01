@@ -1,0 +1,28 @@
+.from_image {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 12px;
+}
+
+.from_image > span {
+    font-size: 15px;
+    line-height: 1.2;
+    margin-bottom: 4px;
+}
+
+.file_wrap {
+    border: 1px solid gray;
+    height: 32px;
+    border-radius: 5px;
+}
+
+.file_wrap:global(.error) {
+    border-color: red
+}
+
+.file_wrap input {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}

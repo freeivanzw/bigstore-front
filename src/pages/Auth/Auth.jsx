@@ -5,10 +5,10 @@ import Container from '../../components/Container/Container';
 import {NavLink, Navigate, useLocation} from 'react-router-dom';
 import InputBox from '../../components/Form/InputBox/InputBox';
 import Button from '../../components/Button/Button';
-import {BASE_URL, HOME_ROUTE, LOGIN_ROUTE, REGISTER_ROUTE} from '../../constants';
+import {ADMIN_ROEL, BASE_URL, HOME_ROUTE, LOGIN_ROUTE, REGISTER_ROUTE} from '../../constants';
 import userApi from '../../api/userApi';
 import {useDispatch, useSelector} from 'react-redux';
-import {setAuthAC, setUserAC} from '../../store/userReducer';
+import {setAuthAC, setRoelAC, setUserAC} from '../../store/userReducer';
 
 
 const Auth = () => {
@@ -38,6 +38,10 @@ const Auth = () => {
           localStorage.setItem('Authorization', 'Bearer ' + token);
           dispatch(setUserAC(id, email, name));
           dispatch(setAuthAC(true))
+
+          if (User.roel === ADMIN_ROEL) {
+            dispatch(setRoelAC(ADMIN_ROEL));
+          }
         }
       } catch (e) {
         console.log(e)
@@ -76,6 +80,10 @@ const Auth = () => {
           localStorage.setItem('Authorization', 'Bearer ' + token);
           dispatch(setUserAC(id, email, name));
           dispatch(setAuthAC(true))
+
+          if (User.roel === ADMIN_ROEL) {
+            dispatch(setRoelAC(ADMIN_ROEL));
+          }
         }
 
       } catch (e) {

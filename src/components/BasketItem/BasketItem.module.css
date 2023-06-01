@@ -1,0 +1,18 @@
+.basket_item {
+    display: grid;
+    grid-template-columns: 100px 1fr 100px 100px;
+    grid-gap: 10px;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.basket_item img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    background-color: #fff;
+}
+
+.basket_item button {
+    cursor: pointer;
+}

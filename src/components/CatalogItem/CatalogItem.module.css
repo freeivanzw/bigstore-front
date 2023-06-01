@@ -1,0 +1,12 @@
+.catalog_item {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+}
+
+.catalog_item img {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    background-color: #fff;
+}

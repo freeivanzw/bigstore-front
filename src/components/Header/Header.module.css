@@ -1,9 +1,80 @@
 .site_header {
     padding: 10px 0;
+    border-bottom: 1px solid gray;
+    margin-bottom: 10px;
 }
 
 .site_header_container {
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.site_logo {
+    font-size: 18px;
+    color: inherit;
+    text-decoration: none;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    height: 30px;
+}
+
+.user_panel {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.user_name {
+    text-decoration: none;
+    color: inherit;
+    padding: 2px 5px;
+    border-radius: 5px;
+    border: 1px solid gray;
+}
+
+.admin_link {
+    color: inherit;
+    margin-right: 8px;
+}
+
+.basket_btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.3s;
+    position: relative;
+}
+
+.basket_btn :global(.icon) {
+    fill: #fff;
+}
+
+.basket_btn b {
+    font-size: 12px;
+    line-height: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    background-color: gray;
+    border-radius: 10px;
+    position: absolute;
+    bottom: -10px;
+    left: -10px;
+}
+
+.logout .icon:global {
+    fill: #fff;
 }

@@ -1,0 +1,17 @@
+.dropdown {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 12px;
+}
+
+.dropdown > span {
+    font-size: 15px;
+    line-height: 1.2;
+    margin-bottom: 4px;
+}
+
+.dropdown > select {
+    padding: 0 15px;
+    height: 32px;
+    border-radius: 5px;
+}

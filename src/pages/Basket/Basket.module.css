@@ -1,0 +1,9 @@
+.basket_item_list {
+    list-style: none;
+    margin: 0 0 20px 0;
+    padding: 0;
+}
+
+.basket_item_list li + li {
+    border-top: 1px solid gray;
+}
